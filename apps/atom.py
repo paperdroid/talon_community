@@ -241,6 +241,7 @@ keymap = {
     "move line" + numerals: move_line,
     "crew <dgndictation>": find_next,
     "trail <dgndictation>": find_previous,
+    "replace next": Key('cmd-alt-e'),
     "shackle": Key("cmd-l"),
     "selrang" + numerals: select_lines,
     "shockey": Key("cmd-shift-enter"),
@@ -261,6 +262,7 @@ keymap = {
     "split pain up": [Key("cmd-k"), Key("up")],
     "split pain down": [Key("cmd-k"), Key("down")],
     "(search all files | mark all)": Key("cmd-shift-f"),
+    "case sensitive": Key('alt-cmd-c'),
     "command pallet": Key(atom_command_pallet),
     "cursor center": command("center-line:toggle"),
     "cursor top": [command("center-line:toggle"), command("center-line:toggle")],
@@ -277,6 +279,7 @@ keymap = {
     "remove [matching] (bracket | brackets)": command(
         "bracket-matcher:remove-matching-brackets"
     ),
+    "select in quotes": command("expand-selection-quotes"),
     "quinn" + "({})".format(" | ".join(snippets.keys())): code_snippet,
     # '({})'.format(' | '.join(snippets.keys())): code_snippet_naked,
     # python
@@ -298,8 +301,8 @@ keymap = {
     "rename": command("autocomplete-python:rename"),
     "override method": command("autocomplete-python:override-method"),
     # symbols-view
-    "symbol": command("symbols-view:toggle-file-symbols"),
-    "symbol <dgndictation>": [
+    "go to symbol": command("symbols-view:toggle-file-symbols"),
+    "go to symbol <dgndictation>": [
         command("symbols-view:toggle-file-symbols"),
         lambda m: time.sleep(0.5),
         text,
@@ -313,6 +316,8 @@ keymap = {
     # project
     "add project": command("application:add-project-folder"),
     "remove project": command("tree view remove project folder"),
+    # blacken
+    "blacken": command("atom black blacken"),
 }
 
 ctx.keymap(keymap)

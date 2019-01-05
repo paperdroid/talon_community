@@ -7,6 +7,9 @@ from talon.voice import Str, Key, press
 from time import sleep
 
 mapping = {
+    "inc.": "incorporated",
+
+    "yamel": "yaml",
     "semicolon": ";",
     "new-line": "\n",
     "new-paragraph": "\n\n",
@@ -111,14 +114,21 @@ mapping = {
     "standard error": "stderr",
     "les": "less",
     "doctor": "docker",
+    "darker": "docker",
     "communities": "kubernetes",
     "shall": "shell",
+    "w get": "wget",
     "backslash": "\\",
     "jet tub": "github",
+    "git tub": "github",
     "jet hub": "github",
+    "git hub": "github",
     "ron": "run",
     "thorpe": "\t",
     "tharp": "\t",
+
+    # python
+    "if not none": "if not None",
 }
 mappings = collections.defaultdict(dict)
 for k, v in mapping.items():
@@ -127,8 +137,10 @@ for k, v in mapping.items():
 punctuation = set(".,-!?")
 
 
-def parse_word(word):
-    word = str(word).lstrip("\\").split("\\", 1)[0].lower()
+def parse_word(word, force_lowercase=True):
+    word = str(word).lstrip("\\").split("\\", 1)[0]
+    if force_lowercase:
+        word = word.lower()
     word = mapping.get(word, word)
     return word
 
@@ -153,7 +165,7 @@ def replace_words(words, mapping, count):
     return new_words
 
 
-def parse_words(m):
+def parse_words(m, natural=False):
     if isinstance(m, list):
         words = m
     elif hasattr(m, 'dgndictation'):
@@ -161,7 +173,7 @@ def parse_words(m):
     else:
         return []
 
-    words = list(map(parse_word, words))
+    words = list(map(lambda current_word: parse_word(current_word, not natural), words))
     words = replace_words(words, mappings[2], 2)
     words = replace_words(words, mappings[3], 3)
     return words
@@ -184,9 +196,14 @@ def text(m):
     insert(join_words(parse_words(m)).lower())
 
 
+def spoken_text(m):
+    insert(join_words(parse_words(m, True)))
+
+
 def sentence_text(m):
-    text = join_words(parse_words(m)).lower()
-    insert(text.capitalize())
+    raw_sentence = join_words(parse_words(m, True))
+    sentence = raw_sentence[0].upper() + raw_sentence[1:]
+    insert(sentence)
 
 
 def word(m):

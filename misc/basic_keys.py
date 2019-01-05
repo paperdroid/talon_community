@@ -25,6 +25,10 @@ alternate_keys = {
     'shock': 'enter',
 }
 symbols = {
+    # NOTE:  This should only contain symbols that do not require any modifier
+    # keys to press on a standard US keyboard layout. Commands for keys that do
+    # require modifiers (e.g. ``"caret": "^"`) should belong in
+    # ``text/symbol.py``.
     'back tick': '`', 'tick': '`',
     'comma': ',',
     'dot': '.', 'period': '.',
@@ -92,7 +96,7 @@ def press_keys(m):
 
 ctx = Context('basic_keys')
 ctx.keymap({
-    '(uppercase | ship) {basic_keys.alphabet}+ [(lowercase | sunk)]': uppercase_letters,
+    '(uppercase | ship | sky) {basic_keys.alphabet}+ [(lowercase | sunk)]': uppercase_letters,
     '{basic_keys.modifiers}* {basic_keys.alphabet}+': press_keys,
     '{basic_keys.modifiers}* {basic_keys.digits}+': press_keys,
     '{basic_keys.modifiers}* {basic_keys.keys}+': press_keys,
